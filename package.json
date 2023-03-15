@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "c8 node_modules/mocha/bin/_mocha test/**/*"
+    "test": "c8 node_modules/mocha/bin/_mocha test/**/*",
+    "report-coverage": "c8 --reporter=text-lcov npm run test > coverage.lcov"
   },
   "author": "JP Lomas <jp.lomas@gmail.com> (https://lomas.doctor/)",
   "license": "MIT",
