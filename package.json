@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "c8 node_modules/mocha/bin/_mocha test/**/*",
-    "report-coverage": "c8 --reporter=text-lcov npm run test > coverage.lcov"
+    "report-coverage": "c8 --reporter=text-lcov npm run test > coverage.lcov",
+    "lint": "eslint ."
   },
   "author": "JP Lomas <jp.lomas@gmail.com> (https://lomas.doctor/)",
   "license": "MIT",
@@ -16,7 +17,13 @@
   "devDependencies": {
     "c8": "^7.13.0",
     "chai": "^4.3.7",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
     "esm": "^3.2.25",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "prettier": "^2.8.4"
   }
 }
