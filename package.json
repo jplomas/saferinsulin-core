@@ -1,0 +1,21 @@
+{
+  "name": "core",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "c8 node_modules/mocha/bin/_mocha test/**/*"
+  },
+  "author": "JP Lomas <jp.lomas@gmail.com> (https://lomas.doctor/)",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "c8": "^7.13.0",
+    "chai": "^4.3.7",
+    "esm": "^3.2.25",
+    "mocha": "^10.2.0"
+  }
+}
