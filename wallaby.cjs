@@ -3,10 +3,12 @@ module.exports = function (wallaby) {
   return {
     env: {
       type: 'node',
-      runner: 'node',
     },
-    files: ['src/*.js', 'package.json',],
-    tests: ['test/*.js'],
+    symlinkNodeModules: true,
+    workers: { restart: true },
+    files: ['package.json', 'src/**/*.js',
+    ],
+    tests: ['test/**/*.js'],
     testFramework: 'mocha',
   };
 };

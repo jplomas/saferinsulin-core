@@ -374,7 +374,7 @@ const ongoingRate = (current, previous, rate) => {
   return r;
 };
 
-export default {
+module.exports = {
   ongoingRate,
   startingRate,
   governance,

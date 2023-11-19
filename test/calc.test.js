@@ -1,6 +1,7 @@
-import { assert } from 'chai';
-import { describe } from 'mocha';
-import calc from '../src/calc.js';
+const { assert } = require('chai');
+const { describe } = require('mocha');
+
+const calc = require('../src/calc.js');
 
 describe('Function when starting patient on Insulin', () => {
   it('When glucose is 3.0 should trigger hypoglycaemia alerts', () => {

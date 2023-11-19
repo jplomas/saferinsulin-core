@@ -13,7 +13,6 @@
   },
   "author": "JP Lomas <jp.lomas@gmail.com> (https://lomas.doctor/)",
   "license": "MIT",
-  "type": "module",
   "devDependencies": {
     "c8": "^7.13.0",
     "chai": "^4.3.7",
