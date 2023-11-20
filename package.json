@@ -9,10 +9,20 @@
   "scripts": {
     "test": "c8 node_modules/mocha/bin/_mocha test/**/*",
     "report-coverage": "c8 --reporter=text-lcov npm run test > coverage.lcov",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:cjs": "rollup src/calc.js --file dist/calc.cjs --format cjs",
+    "build:esm": "rollup src/calc.js --file dist/calc.js --format esm",
+    "build": "npm run build:cjs && npm run build:esm"
   },
   "author": "JP Lomas <jp.lomas@gmail.com> (https://lomas.doctor/)",
   "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/calc.js",
+      "require": "./dist/calc.cjs"
+    }
+  },
   "devDependencies": {
     "c8": "^7.13.0",
     "chai": "^4.3.7",
@@ -23,6 +33,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "esm": "^3.2.25",
     "mocha": "^10.2.0",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.8",
+    "rollup": "^4.5.0"
   }
 }

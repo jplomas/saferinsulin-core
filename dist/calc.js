@@ -374,4 +374,4 @@ const ongoingRate = (current, previous, rate) => {
   return r;
 };
 
-export { ongoingRate, startingRate, governance, rateToHex, glucoseToHex, getHexDate, createGovernance };
+export { createGovernance, getHexDate, glucoseToHex, governance, ongoingRate, rateToHex, startingRate };

@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint no-console: 0, max-len: 0 */
 
 function hexDateConvert(fr) {
@@ -374,4 +376,10 @@ const ongoingRate = (current, previous, rate) => {
   return r;
 };
 
-export { ongoingRate, startingRate, governance, rateToHex, glucoseToHex, getHexDate, createGovernance };
+exports.createGovernance = createGovernance;
+exports.getHexDate = getHexDate;
+exports.glucoseToHex = glucoseToHex;
+exports.governance = governance;
+exports.ongoingRate = ongoingRate;
+exports.rateToHex = rateToHex;
+exports.startingRate = startingRate;
