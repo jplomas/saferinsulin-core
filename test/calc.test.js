@@ -1,6 +1,13 @@
 import { assert } from 'chai';
 import { describe } from 'mocha';
-import { startingRate, createGovernance, ongoingRate, governance } from '../src/calc.js';
+import {
+  startingRate,
+  createGovernance,
+  ongoingRate,
+  governance,
+  glucoseToHex,
+  rateToHex,
+} from '../out-tsc/src/calc.js';
 
 describe('Function when starting patient on Insulin', () => {
   it('When glucose is 3.0 should trigger hypoglycaemia alerts', () => {
@@ -230,5 +237,19 @@ describe('createGovernance ancillary function', () => {
   it('Returns false when passed with unknown algorithm', () => {
     const r = createGovernance({ f: 'x' });
     assert.equal(r, false);
+  });
+});
+
+describe('glucoseToHex ancillary function', () => {
+  it('Returns `failed` when passed with null glucose', () => {
+    const r = glucoseToHex(null);
+    assert.equal(r, 'failed');
+  });
+});
+
+describe('rateToHex ancillary function', () => {
+  it('Returns `failed` when passed with null glucose', () => {
+    const r = rateToHex(null);
+    assert.equal(r, 'failed');
   });
 });

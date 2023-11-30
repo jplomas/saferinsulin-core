@@ -1,5 +1,4 @@
 /* eslint no-console: 0, max-len: 0 */
-
 function hexDateConvert(fr) {
   const dt = new Date();
   let f = parseInt(fr, 16);
@@ -7,32 +6,33 @@ function hexDateConvert(fr) {
   dt.setTime(f * 60000);
   return dt;
 }
-
 function getHexDate(n) {
   let m = Math.floor(n.getTime() / 60000);
   m -= 25678678;
   const x = m.toString(16);
   return x;
 }
-
 function glucoseToHex(i) {
-  const x = parseFloat(i) * 10;
+  if (!i) {
+    return 'failed';
+  }
+  const x = i * 10;
   let y = `00${x.toString(16).substr(-16)}`;
   y = y.slice(-3);
   return y;
 }
-
 function rateToHex(i) {
-  const x = parseFloat(i) * 10;
+  if (!i) {
+    return 'failed';
+  }
+  const x = i * 10;
   let y = `0${x.toString(16).substr(-16)}`;
   y = y.slice(-2);
   return y;
 }
-
 function hexToFloat(i) {
   return parseInt(i, 16) / 10;
 }
-
 function governance(hex) {
   if (!hex) {
     return null;
@@ -62,7 +62,6 @@ function governance(hex) {
     date: d.toString(),
   };
 }
-
 function createGovernance(obj) {
   const n = new Date();
   if (obj.f === 'a') {
@@ -75,12 +74,11 @@ function createGovernance(obj) {
   }
   return false;
 }
-
-const startingRate = (value) => {
-  if (Number.isNaN(parseFloat(value))) {
+function startingRate(passedValue) {
+  if (Number.isNaN(parseFloat(passedValue))) {
     return false;
   }
-  const bg = parseFloat(value);
+  const bg = parseFloat(passedValue);
   if (bg < 0) {
     return false;
   }
@@ -117,20 +115,31 @@ const startingRate = (value) => {
     rate = '4';
     rateNum = 4;
   }
-  const hex = createGovernance({ f: 'a', glucose: value });
+  const hex = createGovernance({ f: 'a', glucose: bg });
   return {
     advice: { type: 'normal', text: [result] },
     rate,
     rateNum,
     hex,
   };
-};
-
-const ongoingRate = (current, previous, rate) => {
-  const r = {};
-  if (Number.isNaN(parseFloat(current)) || Number.isNaN(parseFloat(previous)) || Number.isNaN(parseFloat(rate))) {
+}
+const ongoingRate = (passedCurrent, passedPrevious, passedRate) => {
+  const r = {
+    rateNum: 0,
+    rate: '',
+    advice: { text: [''], type: '' },
+    hex: '',
+  };
+  if (
+    Number.isNaN(parseFloat(passedCurrent)) ||
+    Number.isNaN(parseFloat(passedPrevious)) ||
+    Number.isNaN(parseFloat(passedRate))
+  ) {
     return false;
   }
+  const current = parseFloat(passedCurrent);
+  const previous = parseFloat(passedPrevious);
+  const rate = parseFloat(passedRate);
   let A11 = 'LOGIC ERROR';
   if (current <= 2.2) {
     A11 = '1';

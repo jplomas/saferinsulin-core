@@ -1,6 +1,6 @@
 /* eslint no-console: 0, max-len: 0 */
 
-function hexDateConvert(fr) {
+function hexDateConvert(fr: string): Date {
   const dt = new Date();
   let f = parseInt(fr, 16);
   f += 25678678;
@@ -8,32 +8,40 @@ function hexDateConvert(fr) {
   return dt;
 }
 
-function getHexDate(n) {
+function getHexDate(n: Date): string {
   let m = Math.floor(n.getTime() / 60000);
   m -= 25678678;
   const x = m.toString(16);
   return x;
 }
 
-function glucoseToHex(i) {
-  const x = parseFloat(i) * 10;
+function glucoseToHex(i: number | undefined): string {
+  if (!i) {
+    return 'failed';
+  }
+  const x = i * 10;
   let y = `00${x.toString(16).substr(-16)}`;
   y = y.slice(-3);
   return y;
 }
 
-function rateToHex(i) {
-  const x = parseFloat(i) * 10;
+function rateToHex(i: number | undefined): string {
+  if (!i) {
+    return 'failed';
+  }
+  const x = i * 10;
   let y = `0${x.toString(16).substr(-16)}`;
   y = y.slice(-2);
   return y;
 }
 
-function hexToFloat(i) {
+function hexToFloat(i: string): number {
   return parseInt(i, 16) / 10;
 }
 
-function governance(hex) {
+function governance(
+  hex: string
+): { function: string; current: number | null; last: number | null; rate: number | null; date: string } | null {
   if (!hex) {
     return null;
   }
@@ -63,7 +71,13 @@ function governance(hex) {
   };
 }
 
-function createGovernance(obj) {
+function createGovernance(obj: {
+  f: string;
+  glucose?: number;
+  rate?: number;
+  current?: number;
+  previous?: number | undefined;
+}): string | false {
   const n = new Date();
   if (obj.f === 'a') {
     const hex = `${glucoseToHex(obj.glucose)}-a${getHexDate(n)}`;
@@ -76,15 +90,17 @@ function createGovernance(obj) {
   return false;
 }
 
-const startingRate = (value) => {
-  if (Number.isNaN(parseFloat(value))) {
+function startingRate(
+  passedValue: string
+): { advice: { type: string; text: (string | false)[] }; rate: string; rateNum: number; hex: string | false } | false {
+  if (Number.isNaN(parseFloat(passedValue))) {
     return false;
   }
-  const bg = parseFloat(value);
+  const bg = parseFloat(passedValue);
   if (bg < 0) {
     return false;
   }
-  let result = false;
+  let result: false | string = false;
   let rate = '';
   let rateNum = 0;
   if (bg <= 4) {
@@ -117,20 +133,32 @@ const startingRate = (value) => {
     rate = '4';
     rateNum = 4;
   }
-  const hex = createGovernance({ f: 'a', glucose: value });
+  const hex = createGovernance({ f: 'a', glucose: bg });
   return {
     advice: { type: 'normal', text: [result] },
     rate,
     rateNum,
     hex,
   };
-};
+}
 
-const ongoingRate = (current, previous, rate) => {
-  const r = {};
-  if (Number.isNaN(parseFloat(current)) || Number.isNaN(parseFloat(previous)) || Number.isNaN(parseFloat(rate))) {
+const ongoingRate = (passedCurrent: string, passedPrevious: string, passedRate: string) => {
+  const r: { rateNum: number; rate: string; advice: { text: string[]; type: string }; hex: string | false } = {
+    rateNum: 0,
+    rate: '',
+    advice: { text: [''], type: '' },
+    hex: '',
+  };
+  if (
+    Number.isNaN(parseFloat(passedCurrent)) ||
+    Number.isNaN(parseFloat(passedPrevious)) ||
+    Number.isNaN(parseFloat(passedRate))
+  ) {
     return false;
   }
+  const current: number = parseFloat(passedCurrent);
+  const previous: number = parseFloat(passedPrevious);
+  const rate: number = parseFloat(passedRate);
   let A11 = 'LOGIC ERROR';
   if (current <= 2.2) {
     A11 = '1';
