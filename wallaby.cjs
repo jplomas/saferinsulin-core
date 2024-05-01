@@ -8,7 +8,7 @@ module.exports = function (wallaby) {
     workers: { restart: true },
     files: ['package.json', 'out-tsc/src/**/*.js',
     ],
-    tests: ['test/**/*.js'],
+    tests: ['test/**/*.js', '!test/brute-force.test.js'],
     testFramework: 'mocha',
   };
 };

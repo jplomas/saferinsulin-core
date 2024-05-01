@@ -88,6 +88,27 @@ describe('Governance function', () => {
     assert.equal(r.rate, null);
     assert.equal(d, 'Fri Nov 01 2019 13:27:00 GMT+0000');
   });
+  it('When called with 0f065072-c2c3588 will report correct output', () => {
+    const r = governance('0f065072-c2c3588');
+    const d = r.date.substring(0, 33);
+    assert.equal(r.function, 'c');
+    assert.equal(r.current, 10.1);
+    assert.equal(r.last, 11.4);
+    assert.equal(r.rate, 1.5);
+    assert.equal(d, 'Wed May 01 2024 11:06:00 GMT+0100');
+  });
+  it('Correctly reports version 1.0.0 functions', () => {
+    let r = governance('0bc-a81c71');
+    assert.equal(r.version, '1.0.0');
+    r = governance('9403b059-b81c6b');
+    assert.equal(r.version, '1.0.0');
+  });
+  it('Correctly reports version 2.0.0 functions', () => {
+    let r = governance('0bc-d81c71');
+    assert.equal(r.version, '2.0.0');
+    r = governance('9403b059-c81c6b');
+    assert.equal(r.version, '2.0.0');
+  });
 });
 
 describe('Function when adjusting an ongoing Insulin infusion', () => {
@@ -222,6 +243,14 @@ describe('Function when adjusting an ongoing Insulin infusion', () => {
   it('When current=16, previous=15, rate=3 => new rate 5.1', () => {
     const r = ongoingRate(16, 15, 3);
     assert.equal(r.rateNum, 5.1);
+  });
+  it('When current=7.1, previous=8.4, rate=1.5 => non-negative new rate', () => {
+    const r = ongoingRate(7.1, 8.4, 1.5);
+    assert.isAtLeast(r.rateNum, 0);
+  });
+  it('When current=12.2, previous=16.1, rate=6.1 => non-negative new rate', () => {
+    const r = ongoingRate(12.2, 16.1, 6.1);
+    assert.isAtLeast(r.rateNum, 0);
   });
   it('Upper limit of rate returned is 18ml/hr', () => {
     const r = ongoingRate(17.1, 17.1, 19);

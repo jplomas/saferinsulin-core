@@ -41,7 +41,7 @@ function hexToFloat(i: string): number {
 
 function governance(
   hex: string
-): { function: string; current: number | null; last: number | null; rate: number | null; date: string } | null {
+): { function: string; current: number | null; last: number | null; rate: number | null; date: string; version: string | null } | null {
   if (!hex) {
     return null;
   }
@@ -51,11 +51,18 @@ function governance(
   }
   const f = codes[1].charAt(0);
   const d = hexDateConvert(codes[1].substr(1, codes[1].length));
+  let version = null;
   let rate = null;
   let curr = null;
   let last = null;
-  if (f === 'a') {
+  if (f === 'd' || f === 'a') {
     curr = hexToFloat(codes[0].substr(0, 3));
+  }
+  if (f === 'a' || f === 'b') {
+    version = '1.0.0';
+  }
+  if (f === 'c' || f === 'd') {
+    version = '2.0.0';
   }
   if (f === 'b' || f === 'c') {
     rate = hexToFloat(codes[0].substr(0, 2));
@@ -68,6 +75,7 @@ function governance(
     last,
     rate,
     date: d.toString(),
+    version,
   };
 }
 
@@ -84,7 +92,7 @@ function createGovernance(obj: {
     return hex;
   }
   if (obj.f === 'b') {
-    const h = `${rateToHex(obj.rate) + glucoseToHex(obj.current) + glucoseToHex(obj.previous)}-b${getHexDate(n)}`;
+    const h = `${rateToHex(obj.rate) + glucoseToHex(obj.current) + glucoseToHex(obj.previous)}-c${getHexDate(n)}`;
     return h;
   }
   return false;
@@ -156,99 +164,102 @@ const ongoingRate = (passedCurrent: string, passedPrevious: string, passedRate: 
   ) {
     return false;
   }
-  const current: number = parseFloat(passedCurrent);
-  const previous: number = parseFloat(passedPrevious);
-  const rate: number = parseFloat(passedRate);
+  let current: number = parseFloat(passedCurrent) * 10;
+  let previous: number = parseFloat(passedPrevious) * 10;
+  let rate: number = parseFloat(passedRate) * 10;
   let A11 = 'LOGIC ERROR';
-  if (current <= 2.2) {
+  if (current <= 22) {
     A11 = '1';
   }
-  if (current >= 2.3 && current <= 4) {
+  if (current >= 23 && current <= 40) {
     A11 = '2';
   }
-  if (current >= 4.1 && current < 6.1 && previous <= 6) {
+  if (current >= 41 && current < 61 && previous <= 60) {
     A11 = '3';
   }
-  if (current >= 4.1 && current < 6.1 && previous > 6 && current - previous < -1.5) {
+  if (current >= 41 && current < 61 && previous > 60 && current - previous < -15) {
     A11 = '2';
   }
-  if (current >= 4.1 && current < 6.1 && previous > 6 && current - previous >= -1.5 && current - previous < 0) {
+  if (current >= 41 && current < 61 && previous > 60 && current - previous >= -15 && current - previous < 0) {
     A11 = '3';
   }
-  if (current >= 6.1 && current < 8 && rate < 1.5) {
+  if (current >= 61 && current < 80 && rate <= 15) {
     A11 = '29';
   }
-  if (current >= 6.1 && current < 8 && rate > 1.5) {
+  if (current >= 61 && current < 80 && rate > 15) {
     A11 = '53';
   }
-  if ((current >= 8 && current < 10.1) || (previous < 8 && previous > 10)) {
+  if ((current >= 80 && current < 101) || (previous < 80 && previous > 100)) {
     A11 = '10';
   }
-  if (current >= 8 && current < 10.1 && previous >= 8 && previous <= 10) {
+  if (current >= 80 && current < 101 && previous >= 80 && previous <= 100) {
     A11 = '54';
   }
-  if (current >= 10.1 && current < 12.1 && previous <= 12 && current - previous < 0) {
+  if (current >= 101 && current < 121 && previous <= 120 && current - previous < 0) {
     A11 = '17';
   }
-  if (current >= 10.1 && current < 12.1 && previous <= 12 && current - previous >= 0) {
+  if (current >= 101 && current < 121 && previous <= 120 && current - previous >= 0) {
     A11 = '36';
   }
-  if (current >= 10.1 && current < 12.1 && previous > 12 && current - previous < 0 && current - previous >= -2) {
+  if (current >= 101 && current < 121 && previous > 120 && current - previous < 0 && current - previous >= -20) {
     A11 = '32';
   }
-  if (current >= 10.1 && current < 12.1 && previous > 12 && current - previous < -2) {
+  if (current >= 101 && current < 121 && previous > 120 && current - previous < -20) {
     A11 = '33';
   }
-  if (current >= 12.1 && current <= 14 && previous < 12.1) {
+  if (current >= 121 && current <= 140 && previous < 121) {
     A11 = '34';
   }
-  if (current >= 12.1 && current <= 14 && previous >= 12.1 && previous <= 14 && current - previous >= 0) {
+  if (current >= 121 && current <= 140 && previous >= 121 && previous <= 140 && current - previous >= 0) {
     A11 = '35';
   }
   if (
-    current >= 12.1 &&
-    current <= 14 &&
-    previous >= 12.2 &&
-    previous <= 14.4 &&
+    current >= 121 &&
+    current <= 140 &&
+    previous >= 122 &&
+    previous <= 144 &&
     current - previous < 0 &&
-    current - previous >= -1
+    current - previous >= -10
   ) {
     A11 = '35';
   }
   if (
-    current >= 12.1 &&
-    current <= 14 &&
-    previous >= 13.2 &&
-    previous <= 18 &&
-    current - previous <= -0.5 &&
-    current - previous >= -3.9
+    current >= 121 &&
+    current <= 140 &&
+    previous >= 132 &&
+    previous <= 180 &&
+    current - previous <= -5 &&
+    current - previous >= -39
   ) {
     A11 = '37';
   }
-  if (current >= 12.1 && current <= 14 && previous >= 16.1 && previous <= 18 && current - previous <= -4) {
+  if (current >= 121 && current <= 140 && previous >= 161 && previous <= 180 && current - previous <= -40) {
     A11 = '33';
   }
-  if (current >= 12.1 && current <= 14 && previous > 18) {
+  if (current >= 121 && current <= 140 && previous > 180) {
     A11 = '33';
   }
-  if (current > 14 && previous < 12.1) {
+  if (current > 140 && previous < 121) {
     A11 = '38';
   }
-  if (current > 14 && previous >= 12.1 && previous <= 14) {
+  if (current > 140 && previous >= 121 && previous <= 140) {
     A11 = '34';
   }
-  if (current > 14 && previous > 14 && current - previous > 0) {
+  if (current > 140 && previous > 140 && current - previous > 0) {
     A11 = '38';
   }
-  if (current > 14 && previous > 14 && current - previous <= 0 && current - previous >= -1.9) {
+  if (current > 140 && previous > 140 && current - previous <= 0 && current - previous >= -19) {
     A11 = '34';
   }
-  if (current > 14 && previous > 14 && current - previous < -1.9 && current - previous > -4) {
+  if (current > 140 && previous > 140 && current - previous < -19 && current - previous > -40) {
     A11 = '18';
   }
-  if (current > 14 && previous > 14 && current - previous <= -4) {
+  if (current > 140 && previous > 140 && current - previous <= -40) {
     A11 = '33';
   }
+  current = current / 10;
+  previous = previous / 10;
+  rate = rate / 10;
   let newR = -1;
   if (A11 === '1') {
     newR = 0;
@@ -322,7 +333,7 @@ const ongoingRate = (passedCurrent: string, passedPrevious: string, passedRate: 
       text: [
         'STOP INSULIN FOR AT LEAST 1 HOUR',
         'Give IV dextrose immediately if blood glucose < 4mmol/L & ensure background nutrition or glucose intake.',
-        ' If blood glucose is greater than 4mmol/l then it is falling rapidly. Recheck blood glucose in 30 and 60 minutes.',
+        ' If blood glucose is greater than 4mmol/L then it is falling rapidly. Recheck blood glucose in 30 and 60 minutes.',
       ],
     };
   }
