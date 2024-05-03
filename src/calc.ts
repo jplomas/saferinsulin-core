@@ -69,6 +69,9 @@ function governance(
     curr = hexToFloat(codes[0].substr(2, 3));
     last = hexToFloat(codes[0].substr(5, 3));
   }
+  if (version === null) {
+    return null
+  }
   return {
     function: f,
     current: curr,

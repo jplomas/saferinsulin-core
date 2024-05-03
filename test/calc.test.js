@@ -109,6 +109,12 @@ describe('Governance function', () => {
     r = governance('9403b059-c81c6b');
     assert.equal(r.version, '2.0.0');
   });
+  it('Reports null if unknown function ID passed', () => {
+    let r = governance('0bc-A81c71');
+    assert.equal(r, null);
+    r = governance('9403b059-081c6b');
+    assert.equal(r, null);
+  });
 });
 
 describe('Function when adjusting an ongoing Insulin infusion', () => {
