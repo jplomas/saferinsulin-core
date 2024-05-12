@@ -1,4 +1,5 @@
 /* eslint no-console: 0, max-len: 0 */
+import Legacy from './legacy.js';
 
 function hexDateConvert(fr: string): Date {
   const dt = new Date();
@@ -90,12 +91,14 @@ function createGovernance(obj: {
   previous?: number | undefined;
 }): string | false {
   const n = new Date();
-  if (obj.f === 'a') {
-    const hex = `${glucoseToHex(obj.glucose)}-a${getHexDate(n)}`;
+  if (obj.f === 'a' || obj.f === 'd') {
+    const hex = `${glucoseToHex(obj.glucose)}-${obj.f}${getHexDate(n)}`;
     return hex;
   }
-  if (obj.f === 'b') {
-    const h = `${rateToHex(obj.rate) + glucoseToHex(obj.current) + glucoseToHex(obj.previous)}-c${getHexDate(n)}`;
+  if (obj.f === 'b' || obj.f === 'c') {
+    const h = `${rateToHex(obj.rate) + glucoseToHex(obj.current) + glucoseToHex(obj.previous)}-${obj.f}${getHexDate(
+      n
+    )}`;
     return h;
   }
   return false;
@@ -144,7 +147,7 @@ function startingRate(
     rate = '4';
     rateNum = 4;
   }
-  const hex = createGovernance({ f: 'a', glucose: bg });
+  const hex = createGovernance({ f: 'd', glucose: bg });
   return {
     advice: { type: 'normal', text: [result] },
     rate,
@@ -417,3 +420,4 @@ const ongoingRate = (passedCurrent: string, passedPrevious: string, passedRate: 
 };
 
 export { ongoingRate, startingRate, governance, rateToHex, glucoseToHex, getHexDate, createGovernance };
+export default Legacy;
