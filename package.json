@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "compile": "mkdir -p out-tsc && tsc",
+    "compile": "tsc && prettier -w out-tsc/*",
     "test": "npm run compile && c8 node_modules/mocha/bin/_mocha test/**/*",
     "report-coverage": "c8 --reporter=text-lcov npm run test > coverage.lcov",
     "lint": "eslint .",
