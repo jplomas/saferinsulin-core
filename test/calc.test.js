@@ -9,6 +9,15 @@ import {
   rateToHex,
 } from '../out-tsc/src/calc.js';
 
+function datesEqual(a, b) {
+  const d1 = new Date(Date.parse(a)).toString();
+  const d2 = new Date(Date.parse(b)).toString();
+  if (d1 === d2) {
+    return true;
+  }
+  return false;
+}
+
 describe('Function when starting patient on Insulin', () => {
   it('When glucose is 3.0 should trigger hypoglycaemia alerts', () => {
     const r = startingRate(3);
@@ -77,7 +86,7 @@ describe('Governance function', () => {
     assert.equal(r.current, 5.9);
     assert.equal(r.last, 8.9);
     assert.equal(r.rate, 14.8);
-    assert.equal(d, 'Fri Nov 01 2019 13:21:00 GMT+0000');
+    assert.equal(datesEqual(d, 'Fri Nov 01 2019 13:21:00 GMT+0000'), true);
   });
   it('When called with 0bc-a81c71 will report correct output', () => {
     const r = governance('0bc-a81c71');
@@ -86,7 +95,7 @@ describe('Governance function', () => {
     assert.equal(r.current, 18.8);
     assert.equal(r.last, null);
     assert.equal(r.rate, null);
-    assert.equal(d, 'Fri Nov 01 2019 13:27:00 GMT+0000');
+    assert.equal(datesEqual(d, 'Fri Nov 01 2019 13:27:00 GMT+0000'), true);
   });
   it('When called with 0f065072-c2c3588 will report correct output', () => {
     const r = governance('0f065072-c2c3588');
@@ -95,7 +104,7 @@ describe('Governance function', () => {
     assert.equal(r.current, 10.1);
     assert.equal(r.last, 11.4);
     assert.equal(r.rate, 1.5);
-    assert.equal(d, 'Wed May 01 2024 11:06:00 GMT+0100');
+    assert.equal(datesEqual(d, 'Wed May 01 2024 11:06:00 GMT+0100'), true);
   });
   it('Correctly reports version 1.0.0 functions', () => {
     let r = governance('0bc-a81c71');
@@ -286,5 +295,11 @@ describe('rateToHex ancillary function', () => {
   it('Returns `failed` when passed with null glucose', () => {
     const r = rateToHex(null);
     assert.equal(r, 'failed');
+  });
+});
+
+describe('Date conversion', () => {
+  it('Working in tests (for CI)', () => {
+    assert.equal(datesEqual('Wed May 01 2024 10:06:00 GMT+0000', 'Wed May 01 2024 11:06:00 GMT+0100'), true);
   });
 });
