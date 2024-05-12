@@ -1,5 +1,5 @@
 /* eslint no-console: 0, max-len: 0 */
-import Legacy from './legacy.ts';
+// import Legacy from './legacy.js';
 
 function hexDateConvert(fr: string): Date {
   const dt = new Date();
@@ -425,4 +425,4 @@ const ongoingRate = (passedCurrent: string, passedPrevious: string, passedRate: 
 };
 
 export { ongoingRate, startingRate, governance, rateToHex, glucoseToHex, getHexDate, createGovernance };
-export default Legacy;
+// export default Legacy;

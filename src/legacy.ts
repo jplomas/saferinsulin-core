@@ -1,5 +1,53 @@
 /* eslint-disable class-methods-use-this */
-import { createGovernance } from './calc.ts';
+// import { createGovernance } from './calc.ts';
+
+function rateToHex(i: number | undefined): string {
+  if (!i) {
+    return 'failed';
+  }
+  const x = i * 10;
+  let y = `0${x.toString(16).substr(-16)}`;
+  y = y.slice(-2);
+  return y;
+}
+
+function getHexDate(n: Date): string {
+  let m = Math.floor(n.getTime() / 60000);
+  m -= 25678678;
+  const x = m.toString(16);
+  return x;
+}
+
+function glucoseToHex(i: number | undefined): string {
+  if (!i) {
+    return 'failed';
+  }
+  const x = i * 10;
+  let y = `00${x.toString(16).substr(-16)}`;
+  y = y.slice(-3);
+  return y;
+}
+
+function createGovernance(obj: {
+  f: string;
+  glucose?: number;
+  rate?: number;
+  current?: number;
+  previous?: number | undefined;
+}): string | false {
+  const n = new Date();
+  if (obj.f === 'a' || obj.f === 'd') {
+    const hex = `${glucoseToHex(obj.glucose)}-${obj.f}${getHexDate(n)}`;
+    return hex;
+  }
+  if (obj.f === 'b' || obj.f === 'c') {
+    const h = `${rateToHex(obj.rate) + glucoseToHex(obj.current) + glucoseToHex(obj.previous)}-${obj.f}${getHexDate(
+      n
+    )}`;
+    return h;
+  }
+  return false;
+}
 
 class Legacy {
   version: number | null;
