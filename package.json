@@ -11,8 +11,8 @@
     "test": "npm run compile && c8 node_modules/mocha/bin/_mocha test/**/*",
     "report-coverage": "c8 --reporter=text-lcov npm run test > coverage.lcov",
     "lint": "eslint .",
-    "build:cjs": "npm run compile && rollup out-tsc/src/calc.js --file ./dist/calc.cjs --format cjs",
-    "build:esm": "npm run compile && rollup out-tsc/src/calc.js --file ./dist/calc.js --format esm",
+    "build:cjs": "npm run compile && rollup ./out-tsc/src/calc.js --file ./dist/calc.cjs --format cjs",
+    "build:esm": "npm run compile && rollup ./out-tsc/src/calc.js --file ./dist/calc.js --format esm",
     "build": "npm run build:cjs && npm run build:esm"
   },
   "author": "JP Lomas <jp.lomas@gmail.com> (https://lomas.doctor/)",
