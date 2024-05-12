@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 class Legacy {
   constructor(v) {
     if (v === '1.0.0') {
@@ -723,7 +725,7 @@ const ongoingRate = (passedCurrent, passedPrevious, passedRate) => {
     };
   }
   const hex = createGovernance({
-    f: 'b',
+    f: 'd',
     rate,
     current,
     previous,
@@ -732,8 +734,8 @@ const ongoingRate = (passedCurrent, passedPrevious, passedRate) => {
   return r;
 };
 
-exports.Legacy = Legacy;
 exports.createGovernance = createGovernance;
+exports.default = Legacy;
 exports.getHexDate = getHexDate;
 exports.glucoseToHex = glucoseToHex;
 exports.governance = governance;

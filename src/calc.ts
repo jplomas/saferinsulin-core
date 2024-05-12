@@ -410,7 +410,7 @@ const ongoingRate = (passedCurrent: string, passedPrevious: string, passedRate: 
     };
   }
   const hex = createGovernance({
-    f: 'b',
+    f: 'd',
     rate,
     current,
     previous,

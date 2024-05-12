@@ -721,7 +721,7 @@ const ongoingRate = (passedCurrent, passedPrevious, passedRate) => {
     };
   }
   const hex = createGovernance({
-    f: 'b',
+    f: 'd',
     rate,
     current,
     previous,
@@ -730,4 +730,4 @@ const ongoingRate = (passedCurrent, passedPrevious, passedRate) => {
   return r;
 };
 
-export { Legacy, createGovernance, getHexDate, glucoseToHex, governance, ongoingRate, rateToHex, startingRate };
+export { createGovernance, Legacy as default, getHexDate, glucoseToHex, governance, ongoingRate, rateToHex, startingRate };
