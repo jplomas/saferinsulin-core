@@ -1,6 +1,9 @@
-import { createGovernance } from './calc.js';
+/* eslint-disable class-methods-use-this */
+import { createGovernance } from './calc.ts';
+
 class Legacy {
   version: number | null;
+
   constructor(v: string) {
     if (v === '1.0.0') {
       this.version = 100;
@@ -9,6 +12,7 @@ class Legacy {
     // default to null
     this.version = null;
   }
+
   startingRate(passedValue: string):
     | {
         advice: { type: string; text: (string | false)[] };
@@ -22,17 +26,18 @@ class Legacy {
     }
     return false;
   }
+
   ongoingRate(
     passedCurrent: string,
     passedPrevious: string,
     passedRate: string
   ): { rateNum: number; rate: string; advice: { text: string[]; type: string }; hex: string | false } | false {
-
     if (this.version === 100) {
       return this.ongoingRate100(passedCurrent, passedPrevious, passedRate);
     }
     return false;
   }
+
   ongoingRate100(passedCurrent: string, passedPrevious: string, passedRate: string) {
     const r: { rateNum: number; rate: string; advice: { text: string[]; type: string }; hex: string | false } = {
       rateNum: 0,
@@ -292,6 +297,7 @@ class Legacy {
     r.hex = hex;
     return r;
   }
+
   startingRate100(passedValue: string):
     | {
         advice: { type: string; text: (string | false)[] };
@@ -349,5 +355,5 @@ class Legacy {
     };
   }
 }
-export { createGovernance };
+
 export default Legacy;

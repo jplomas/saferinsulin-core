@@ -1,5 +1,5 @@
 /* eslint no-console: 0, max-len: 0 */
-import Legacy from './legacy.js';
+import Legacy from './legacy.ts';
 
 function hexDateConvert(fr: string): Date {
   const dt = new Date();
@@ -40,9 +40,14 @@ function hexToFloat(i: string): number {
   return parseInt(i, 16) / 10;
 }
 
-function governance(
-  hex: string
-): { function: string; current: number | null; last: number | null; rate: number | null; date: string; version: string | null } | null {
+function governance(hex: string): {
+  function: string;
+  current: number | null;
+  last: number | null;
+  rate: number | null;
+  date: string;
+  version: string | null;
+} | null {
   if (!hex) {
     return null;
   }
@@ -71,7 +76,7 @@ function governance(
     last = hexToFloat(codes[0].substr(5, 3));
   }
   if (version === null) {
-    return null
+    return null;
   }
   return {
     function: f,
