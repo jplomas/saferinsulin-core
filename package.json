@@ -1,14 +1,14 @@
 {
   "name": "@saferinsulin/core",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "description": "",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "compile": "tsc",
-    "test": "npm run compile && c8 node_modules/mocha/bin/_mocha test/**/*",
+    "compile": "tsc -p tsconfig.build.json",
+    "test": "c8 mocha",
     "report-coverage": "c8 --reporter=text-lcov npm run test > coverage.lcov",
     "lint": "eslint .",
     "build:cjs": "rollup ./out-tsc/src/calc.js --file ./dist/calc.cjs --format cjs",
@@ -25,6 +25,8 @@
     }
   },
   "devDependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.6",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "c8": "^7.13.0",
     "chai": "^4.3.7",
@@ -42,6 +44,7 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "@saferinsulin/core": "^1.9.1"
+    "@saferinsulin/core": "^1.9.1",
+    "ts-node": "^10.9.2"
   }
 }

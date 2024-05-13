@@ -8,9 +8,7 @@
     "strict": true,
     "esModuleInterop": false,
     "outDir": "out-tsc",
-    "rootDir": "./",
-    "allowImportingTsExtensions": true,
-    "noEmit": true
+    "rootDir": "./"
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules/**/*"]

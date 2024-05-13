@@ -6,9 +6,9 @@ module.exports = function (wallaby) {
     },
     symlinkNodeModules: true,
     workers: { restart: true },
-    files: ['package.json', 'out-tsc/src/**/*.js',
+    files: ['package.json', 'src/**/*',
     ],
-    tests: ['test/**/*.js', '!test/brute-force.test.js'],
+    tests: ['test/**/*', '!test/brute-force.test.*'],
     testFramework: 'mocha',
   };
 };
