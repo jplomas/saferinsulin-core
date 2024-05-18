@@ -1,6 +1,6 @@
 {
   "root": true,
-  "plugins": ["prettier", "typescript"],
+  "plugins": ["prettier", "@typescript-eslint"],
   "extends": ["airbnb-base", "plugin:import/warnings", "prettier"],
   "env": {
     "browser": true,
