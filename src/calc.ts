@@ -230,7 +230,7 @@ export default class Calc {
     if (current >= 6.1 && current < 8 && rate > 1.5) {
       A11 = '53';
     }
-    if ((current >= 8 && current < 10.1) || (previous < 8 && previous > 10)) {
+    if (current >= 8 && current < 10.1 && (previous < 8 || previous > 10)) {
       A11 = '10';
     }
     if (current >= 8 && current < 10.1 && previous >= 8 && previous <= 10) {
@@ -607,7 +607,7 @@ export default class Calc {
     if (current >= 61 && current < 80 && rate > 15) {
       A11 = '53';
     }
-    if ((current >= 80 && current < 101) || (previous < 80 && previous > 100)) {
+    if (current >= 80 && current < 101 && (previous < 80 || previous > 100)) {
       A11 = '10';
     }
     if (current >= 80 && current < 101 && previous >= 80 && previous <= 100) {
