@@ -71,7 +71,7 @@ class Calc {
         return y;
     }
     rateToHex(i) {
-        if (!i) {
+        if (i === null || i === undefined) {
             return 'failed';
         }
         const x = i * 10;

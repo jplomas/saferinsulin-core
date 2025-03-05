@@ -103,7 +103,7 @@ export default class Calc {
   }
 
   rateToHex(i: number | null | undefined): string {
-    if (!i) {
+    if (i === null || i === undefined) {
       return 'failed';
     }
     const x = i * 10;

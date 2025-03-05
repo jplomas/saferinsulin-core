@@ -350,6 +350,10 @@ describe('rateToHex ancillary function', () => {
     const r = i200.rateToHex(null);
     assert.equal(r, 'failed');
   });
+  it('Does not return `failed` when passed with a rate of 0', () => {
+    const r = i200.rateToHex(0);
+    assert.notEqual(r, 'failed');
+  });
 });
 
 describe('Date conversion', () => {
